@@ -142,6 +142,9 @@ window.onload = function() {
   for (const county in lastDaysData) {
     let option = document.createElement("a");
     option.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
+    if (county == "All counties") {
+      option.classList.add("active");
+    }
     option.href = "#";
     option.text = county;
     option.onclick = function() {
