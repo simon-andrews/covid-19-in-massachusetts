@@ -1,4 +1,40 @@
 const casesByCountyByDay = {
+  "3/9": {
+    "All counties": 41,
+    "Berkshire": 5,
+    "Middlesex": 15,
+    "Norfolk": 10,
+    "Suffolk": 10,
+    "Worcester": 1
+  },
+  "3/10": {
+    "All counties": 92,
+    "Berkshire": 7,
+    "Essex": 1,
+    "Middlesex": 41,
+    "Norfolk": 22,
+    "Suffolk": 20,
+    "Worcester": 1
+  },
+  "3/11": {
+    "All counties": 95,
+    "Berkshire": 7,
+    "Essex": 1,
+    "Middlesex": 44,
+    "Norfolk": 23,
+    "Suffolk": 19,
+    "Worcester": 1
+  },
+  "3/12": {
+    "All counties": 108,
+    "Berkshire": 9,
+    "Essex": 2,
+    "Middlesex": 49,
+    "Norfolk": 24,
+    "Suffolk": 22,
+    "Worcester": 1,
+    "Unknown": 1
+  },
   "3/13": {
     "All counties": 123,
     "Berkshire": 9,
