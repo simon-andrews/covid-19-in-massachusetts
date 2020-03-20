@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<head>
+  <title>COVID-19 cases in Massachusetts</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
+  <style>
+    .list-group-item {
+      padding: 5px 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>COVID-19 cases in Massachusetts</h1>
+    <div class="alert alert-warning">
+      For official up-to-date information, please visit the dedicated COVID-19 websites from the <a href="https://www.cdc.gov/coronavirus/2019-ncov/index.html">CDC</a> and the <a href="https://www.mass.gov/resource/information-on-the-outbreak-of-coronavirus-disease-2019-covid-19">Massachusetts Department of Public Health</a>. Please also read <a href="https://www.flattenthecurve.com/">Flatten the Curve</a> and <a href="https://staythefuckhome.com/">#StayTheFuckHome</a>. All the data on this page comes from the <a href="https://www.mass.gov/info-details/covid-19-cases-quarantine-and-monitoring">Massachusetts DPH</a>.
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <p><strong>Counties</strong></p>
+        <div id="county-selector" class="list-group">
+        </div>
+      </div>
+      <div class="col-md-8">
+        <canvas id="chart" height="200px"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+  <script src="main.js"></script>
+</body>
