@@ -126,6 +126,22 @@ const casesByCountyByDay = {
     "Worcester": 14,
     "Unknown": 13
   },
+  "3/20": {
+    "All counties": 413,
+    "Barnstable": 9,
+    "Berkshire": 20,
+    "Bristol": 6,
+    "Essex": 29,
+    "Franklin": 1,
+    "Hampden": 3,
+    "Hampshire": 2,
+    "Middlesex": 144,
+    "Norfolk": 64,
+    "Plymouth": 11,
+    "Suffolk": 86,
+    "Worcester": 19,
+    "Unknown": 19
+  },
 }
 
 let ctx = document.getElementById("chart").getContext("2d");
@@ -173,7 +189,7 @@ function setCounty(countyName) {
 
 window.onload = function() {
   setCounty("All counties");
-  const lastDay = "3/19";
+  const lastDay = "3/20";
   const lastDaysData = casesByCountyByDay[lastDay];
   for (const county in lastDaysData) {
     let option = document.createElement("a");
