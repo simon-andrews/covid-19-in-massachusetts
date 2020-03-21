@@ -152,6 +152,7 @@ let chart = new Chart(ctx, {
     datasets: [{
       label: '# confirmed or presumptive positive cases',
       data: [],
+      lineTension: 0,
     }]
   },
   options: {
