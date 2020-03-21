@@ -1,214 +1,107 @@
-const casesByCountyByDay = {
-  "3/9": {
-    "All counties": 41,
-    "Berkshire": 5,
-    "Middlesex": 15,
-    "Norfolk": 10,
-    "Suffolk": 10,
-    "Worcester": 1
-  },
-  "3/10": {
-    "All counties": 92,
-    "Berkshire": 7,
-    "Essex": 1,
-    "Middlesex": 41,
-    "Norfolk": 22,
-    "Suffolk": 20,
-    "Worcester": 1
-  },
-  "3/11": {
-    "All counties": 95,
-    "Berkshire": 7,
-    "Essex": 1,
-    "Middlesex": 44,
-    "Norfolk": 23,
-    "Suffolk": 19,
-    "Worcester": 1
-  },
-  "3/12": {
-    "All counties": 108,
-    "Berkshire": 9,
-    "Essex": 2,
-    "Middlesex": 49,
-    "Norfolk": 24,
-    "Suffolk": 22,
-    "Worcester": 1,
-    "Unknown": 1
-  },
-  "3/13": {
-    "All counties": 123,
-    "Berkshire": 9,
-    "Essex": 2,
-    "Middlesex": 60,
-    "Norfolk": 24,
-    "Suffolk": 26,
-    "Worcester": 2
-  },
-  "3/14": {
-    "All counties": 138,
-    "Barnstable": 1,
-    "Berkshire": 9,
-    "Bristol": 1,
-    "Essex": 5,
-    "Middlesex": 65,
-    "Norfolk": 28,
-    "Suffolk": 27,
-    "Worcester": 2
-  },
-  "3/15": {
-    "All counties": 164,
-    "Barnstable": 1,
-    "Berkshire": 9,
-    "Bristol": 1,
-    "Essex": 6,
-    "Hampden": 1,
-    "Middlesex": 75,
-    "Norfolk": 31,
-    "Plymouth": 1,
-    "Suffolk": 31,
-    "Worcester": 6,
-    "Unknown": 2
-  },
-  "3/16": {
-    "All counties": 197,
-    "Barnstable": 1,
-    "Berkshire": 11,
-    "Bristol": 2,
-    "Essex": 8,
-    "Hampden": 1,
-    "Middlesex": 83,
-    "Norfolk": 36,
-    "Plymouth": 3,
-    "Suffolk": 36,
-    "Worcester": 6,
-    "Unknown": 10
-  },
-  "3/17": {
-    "All counties": 218,
-    "Barnstable": 2,
-    "Berkshire": 14,
-    "Bristol": 5,
-    "Essex": 8,
-    "Hampden": 1,
-    "Middlesex": 89,
-    "Norfolk": 43,
-    "Plymouth": 5,
-    "Suffolk": 42,
-    "Worcester": 8,
-    "Unknown": 1
-  },
-  "3/18": {
-    "All counties": 256,
-    "Barnstable": 2,
-    "Berkshire": 17,
-    "Bristol": 5,
-    "Essex": 14,
-    "Hampden": 2,
-    "Middlesex": 100,
-    "Norfolk": 45,
-    "Plymouth": 5,
-    "Suffolk": 51,
-    "Worcester": 10,
-    "Unknown": 4
-  },
-  "3/19": {
-    "All counties": 328,
-    "Barnstable": 5,
-    "Berkshire": 18,
-    "Bristol": 6,
-    "Essex": 19,
-    "Hampden": 3,
-    "Hampshire": 1,
-    "Middlesex": 119,
-    "Norfolk": 52,
-    "Plymouth": 5,
-    "Suffolk": 72,
-    "Worcester": 14,
-    "Unknown": 13
-  },
-  "3/20": {
-    "All counties": 413,
-    "Barnstable": 9,
-    "Berkshire": 20,
-    "Bristol": 6,
-    "Essex": 29,
-    "Franklin": 1,
-    "Hampden": 3,
-    "Hampshire": 2,
-    "Middlesex": 144,
-    "Norfolk": 64,
-    "Plymouth": 11,
-    "Suffolk": 86,
-    "Worcester": 19,
-    "Unknown": 19
-  },
+const allDatasets = [
+  barnstableDataset,
+  berkshireDataset,
+  bristolDataset,
+  dukesDataset,
+  essexDataset,
+  franklinDataset,
+  hampdenDataset,
+  hampshireDataset,
+  middlesexDataset,
+  nantucketDataset,
+  norfolkDataset,
+  plymouthDataset,
+  suffolkDataset,
+  worcesterDataset,
+  unknownDataset
+];
+
+allDatasets.sort(function (a, b) {
+  const aMax = Math.max(...a.data);
+  const bMax = Math.max(...b.data);
+  return bMax - aMax;
+});
+
+let colorTemp = 0;
+for (let i = 0; i < allDatasets.length; ++i) {
+  const hue = Math.round(colorTemp);
+  const saturation = 80;
+  const lightness = 50;
+  allDatasets[i].backgroundColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+  colorTemp += 360 / 7;
+  if (colorTemp > 360) {
+    colorTemp = 0;
+  }
 }
 
-let ctx = document.getElementById("chart").getContext("2d");
+let ctx = document.getElementById('chart').getContext('2d');
 let chart = new Chart(ctx, {
-  type: 'line',
+  type: 'bar',
   data: {
-    labels: [],
-    datasets: [{
-      label: '# confirmed or presumptive positive cases',
-      data: [],
-      lineTension: 0,
-    }]
+    labels: ['3/9', '3/10', '3/11', '3/12', '3/13', '3/14', '3/15', '3/16', '3/17', '3/18', '3/19', '3/20'],
+    datasets: allDatasets
   },
   options: {
+    legend: {
+      display: false
+    },
     scales: {
+      xAxes: [{
+        stacked: true
+      }],
       yAxes: [{
+        stacked: true,
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
         }
       }]
     }
   }
 });
 
-const countySelector = document.getElementById("county-selector");
-
-function setCounty(countyName) {
-  for (const child of countySelector.children) {
-    child.classList.remove("active");
-  }
-  let labels = [];
-  let data = [];
-  for (date in casesByCountyByDay) {
-    labels.push(date);
-    if (countyName in casesByCountyByDay[date]) {
-      data.push(casesByCountyByDay[date][countyName]);
+function makeCountyOption(name, caseCount, datasets) {
+  const countySelector = document.getElementById('county-selector');
+  const option = document.createElement('a');
+  option.classList.add('align-items-center');
+  option.classList.add('d-flex');
+  option.classList.add('justify-content-between');
+  option.classList.add('list-group-item');
+  option.classList.add('list-group-item-action');
+  option.href = '#';
+  option.text = name;
+  option.onclick = function () {
+    chart.data.datasets = datasets;
+    chart.update(0);
+    for (const child of countySelector.children) {
+      child.classList.remove('active');
     }
-    else {
-      data.push(0);
-    }
+    option.classList.add('active');
+    console.log('aa');
   }
-  chart.data.labels = labels;
-  chart.data.datasets[0].data = data;
-  chart.update();
+  const badge = document.createElement('span');
+  badge.classList.add('badge');
+  badge.classList.add('badge-pill');
+  badge.classList.add('badge-warning');
+  badge.innerHTML = caseCount;
+  option.appendChild(badge);
+  return option;
 }
 
-window.onload = function() {
-  setCounty("All counties");
-  const lastDay = "3/20";
-  const lastDaysData = casesByCountyByDay[lastDay];
-  for (const county in lastDaysData) {
-    let option = document.createElement("a");
-    option.className = "list-group-item list-group-item-action d-flex justify-content-between align-items-center";
-    if (county == "All counties") {
-      option.classList.add("active");
-    }
-    option.href = "#";
-    option.text = county;
-    option.onclick = function() {
-      console.log(county);
-      setCounty(county);
-      option.classList.add("active");
-    }
-    let badge = document.createElement("span");
-    badge.className = "badge badge-warning badge-pill";
-    badge.innerHTML = lastDaysData[county];
-    option.appendChild(badge);
+window.onload = function () {
+  const countySelector = document.getElementById('county-selector');
+  let totalCases = 0;
+  for (const dataset of allDatasets) {
+    const mostRecentCaseCount = dataset.data[dataset.data.length - 1];
+    totalCases += mostRecentCaseCount;
+  }
+  const allCountiesOption = makeCountyOption('All counties', totalCases, allDatasets);
+  allCountiesOption.classList.add('active');
+  countySelector.appendChild(allCountiesOption);
+  for (const dataset of allDatasets) {
+    const name = dataset.countyName;
+    const mostRecentCaseCount = dataset.data[dataset.data.length - 1];
+    const option = makeCountyOption(name, mostRecentCaseCount, [dataset]);
     countySelector.appendChild(option);
   }
 }
