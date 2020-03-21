@@ -54,7 +54,8 @@ let chart = new Chart(ctx, {
         stacked: true,
         ticks: {
           beginAtZero: true,
-        }
+        },
+        type: undefined
       }]
     }
   }
@@ -89,6 +90,18 @@ function makeCountyOption(name, caseCount, datasets) {
 }
 
 window.onload = function () {
+
+  const logscaleCheckbox = document.getElementById('logscale-checkbox');
+  logscaleCheckbox.onclick = function () {
+    if (chart.options.scales.yAxes[0].type !== 'logarithmic') {
+      chart.options.scales.yAxes[0].type = 'logarithmic';
+    }
+    else {
+      chart.options.scales.yAxes[0].type = 'linear';
+    }
+    chart.update(0);
+  }
+
   const countySelector = document.getElementById('county-selector');
   let totalCases = 0;
   for (const dataset of allDatasets) {
